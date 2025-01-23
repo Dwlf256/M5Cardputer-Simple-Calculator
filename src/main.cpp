@@ -24,42 +24,92 @@ void setup() {
     M5Cardputer.Display.drawString(data, 4, M5Cardputer.Display.height() - 24);
 }
 
-void calculate(){
+void calculate() {
+    char buffer[20];  // Buffer for number formatting
     if (operation.indexOf("+") > 0) {
-        int a = operation.substring(0, operation.indexOf("+")).toInt();
-        int b = operation.substring(operation.indexOf("+") + 1).toInt();
-        operation = String(a + b);
+        float a = operation.substring(0, operation.indexOf("+")).toFloat();
+        float b = operation.substring(operation.indexOf("+") + 1).toFloat();
+        dtostrf(a + b, 0, 10, buffer);
+        operation = String(buffer);
+        operation.trim();  // Remove leading/trailing spaces
+        // Remove trailing zeros after decimal point
+        while (operation.endsWith("0")) {
+            operation = operation.substring(0, operation.length() - 1);
+        }
+        if (operation.endsWith(".")) {
+            operation = operation.substring(0, operation.length() - 1);
+        }
     } else if (operation.indexOf("-") > 0) {
-        int a = operation.substring(0, operation.indexOf("-")).toInt();
-        int b = operation.substring(operation.indexOf("-") + 1).toInt();
-        operation = String(a - b);
+        float a = operation.substring(0, operation.indexOf("-")).toFloat();
+        float b = operation.substring(operation.indexOf("-") + 1).toFloat();
+        dtostrf(a - b, 0, 10, buffer);
+        operation = String(buffer);
+        operation.trim();
+        while (operation.endsWith("0")) {
+            operation = operation.substring(0, operation.length() - 1);
+        }
+        if (operation.endsWith(".")) {
+            operation = operation.substring(0, operation.length() - 1);
+        }
     } else if (operation.indexOf("*") > 0) {
-        int a = operation.substring(0, operation.indexOf("*")).toInt();
-        int b = operation.substring(operation.indexOf("*") + 1).toInt();
-        operation = String(a * b);
+        float a = operation.substring(0, operation.indexOf("*")).toFloat();
+        float b = operation.substring(operation.indexOf("*") + 1).toFloat();
+        dtostrf(a * b, 0, 10, buffer);
+        operation = String(buffer);
+        operation.trim();
+        while (operation.endsWith("0")) {
+            operation = operation.substring(0, operation.length() - 1);
+        }
+        if (operation.endsWith(".")) {
+            operation = operation.substring(0, operation.length() - 1);
+        }
     } else if (operation.indexOf("/") > 0) {
-        int a = operation.substring(0, operation.indexOf("/")).toInt();
-        int b = operation.substring(operation.indexOf("/") + 1).toInt();
+        float a = operation.substring(0, operation.indexOf("/")).toFloat();
+        float b = operation.substring(operation.indexOf("/") + 1).toFloat();
         if (b == 0) {
             operation = "Error: Division by zero";
             return;
         }
-        operation = String(a / b);
+        dtostrf(a / b, 0, 10, buffer);
+        operation = String(buffer);
+        operation.trim();
+        while (operation.endsWith("0")) {
+            operation = operation.substring(0, operation.length() - 1);
+        }
+        if (operation.endsWith(".")) {
+            operation = operation.substring(0, operation.length() - 1);
+        }
     } else if (operation.indexOf("^") > 0) {
-        int a = operation.substring(0, operation.indexOf("^")).toInt();
-        int b = operation.substring(operation.indexOf("^") + 1).toInt();
-        if (b<0){
+        float a = operation.substring(0, operation.indexOf("^")).toFloat();
+        float b = operation.substring(operation.indexOf("^") + 1).toFloat();
+        if (b < 0) {
             operation = "Not supported for now :(";
             return;
         }
-        operation = String(pow(a, b));
+        dtostrf(pow(a, b), 0, 10, buffer);
+        operation = String(buffer);
+        operation.trim();
+        while (operation.endsWith("0")) {
+            operation = operation.substring(0, operation.length() - 1);
+        }
+        if (operation.endsWith(".")) {
+            operation = operation.substring(0, operation.length() - 1);
+        }
     } else if (operation.indexOf("sqrt(") >= 0) {
-        int a = operation.substring(operation.indexOf("sqrt(") + 5).toInt();
+        float a = operation.substring(operation.indexOf("sqrt(") + 5).toFloat();
         if (a < 0) {
             operation = "Error: Invalid input for sqrt";
             return;
         }
-        operation = String(sqrt(a));
+        dtostrf(sqrt(a), 0, 10, buffer);
+        operation = String(buffer);
+        operation.trim();
+        while (operation.endsWith("0")) {
+            operation = operation.substring(0, operation.length() - 1);
+        }
+        if (operation.endsWith(".")) {
+            operation = operation.substring(0, operation.length() - 1);
+        }
     } else {
         operation = "Error: Invalid operation";
     }
