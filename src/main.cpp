@@ -25,10 +25,10 @@ void setup() {
 }
 
 void calculate() {
-    char buffer[20];  // Buffer for number formatting
+    char buffer[32];  // Increased buffer size for precision
     if (operation.indexOf("+") > 0) {
-        float a = operation.substring(0, operation.indexOf("+")).toFloat();
-        float b = operation.substring(operation.indexOf("+") + 1).toFloat();
+        double a = operation.substring(0, operation.indexOf("+")).toDouble();
+        double b = operation.substring(operation.indexOf("+") + 1).toDouble();
         dtostrf(a + b, 0, 10, buffer);
         operation = String(buffer);
         operation.trim();  // Remove leading/trailing spaces
@@ -40,8 +40,8 @@ void calculate() {
             operation = operation.substring(0, operation.length() - 1);
         }
     } else if (operation.indexOf("-") > 0) {
-        float a = operation.substring(0, operation.indexOf("-")).toFloat();
-        float b = operation.substring(operation.indexOf("-") + 1).toFloat();
+        double a = operation.substring(0, operation.indexOf("-")).toDouble();
+        double b = operation.substring(operation.indexOf("-") + 1).toDouble();
         dtostrf(a - b, 0, 10, buffer);
         operation = String(buffer);
         operation.trim();
@@ -52,8 +52,8 @@ void calculate() {
             operation = operation.substring(0, operation.length() - 1);
         }
     } else if (operation.indexOf("*") > 0) {
-        float a = operation.substring(0, operation.indexOf("*")).toFloat();
-        float b = operation.substring(operation.indexOf("*") + 1).toFloat();
+        double a = operation.substring(0, operation.indexOf("*")).toDouble();
+        double b = operation.substring(operation.indexOf("*") + 1).toDouble();
         dtostrf(a * b, 0, 10, buffer);
         operation = String(buffer);
         operation.trim();
@@ -64,8 +64,8 @@ void calculate() {
             operation = operation.substring(0, operation.length() - 1);
         }
     } else if (operation.indexOf("/") > 0) {
-        float a = operation.substring(0, operation.indexOf("/")).toFloat();
-        float b = operation.substring(operation.indexOf("/") + 1).toFloat();
+        double a = operation.substring(0, operation.indexOf("/")).toDouble();
+        double b = operation.substring(operation.indexOf("/") + 1).toDouble();
         if (b == 0) {
             operation = "Error: Division by zero";
             return;
@@ -80,8 +80,8 @@ void calculate() {
             operation = operation.substring(0, operation.length() - 1);
         }
     } else if (operation.indexOf("^") > 0) {
-        float a = operation.substring(0, operation.indexOf("^")).toFloat();
-        float b = operation.substring(operation.indexOf("^") + 1).toFloat();
+        double a = operation.substring(0, operation.indexOf("^")).toDouble();
+        double b = operation.substring(operation.indexOf("^") + 1).toDouble();
         if (b < 0) {
             operation = "Not supported for now :(";
             return;
@@ -96,7 +96,7 @@ void calculate() {
             operation = operation.substring(0, operation.length() - 1);
         }
     } else if (operation.indexOf("sqrt(") >= 0) {
-        float a = operation.substring(operation.indexOf("sqrt(") + 5).toFloat();
+        double a = operation.substring(operation.indexOf("sqrt(") + 5).toDouble();
         if (a < 0) {
             operation = "Error: Invalid input for sqrt";
             return;
